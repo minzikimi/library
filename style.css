@@ -1,0 +1,173 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+
+body {
+  background: linear-gradient(#1B1212, #cd9ea8);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+@font-face{
+  font-family: clashdisplay;
+  src: url(Font/ClashDisplay-Variable.ttf);
+}
+
+header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header > h1{
+  font-size: 8rem;
+  font-family: clashdisplay;
+  font-weight: 500;
+  color:white;
+}
+
+header>h1::first-letter
+{
+  font-size:10rem;
+}
+
+#book-dialog{
+  background-color: white;
+  border-radius: 10px;
+  width: 500px;
+  
+}
+
+#form-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form, form input{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+}
+
+form {
+  font-weight:bold;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-direction: column;
+  gap:20px;
+  width: 80%;
+  margin:20px;
+  justify-content: center;
+  align-items: center;
+}
+
+form input {
+  border: none;
+  outline: none;
+  background-color: #f0f0f0;
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+
+.book-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+  grid-template-rows: repeat(auto-fit, minmax(200px, 300px));
+  padding: 30px;
+  gap: 30px;
+}
+
+
+
+.book-card{
+  width: 200px;
+  height: 300px;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+  display: flex;
+}
+
+
+
+#add-book-button {
+  cursor: pointer;
+  background-color: white;
+  padding: 15px 30px;
+  position: fixed;
+  top: 20px;
+  right: 40px;
+  border: none;
+  border-radius: 5px;
+  font-family: clashdisplay, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1B1212;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+#add-book-button:hover {
+  background-color: #cd9ea8;
+  color: white;
+}
+
+#backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+  pointer-events: none;
+  display: none;
+}
+
+#backdrop.visible {
+  display: block;
+  pointer-events: all;
+}
