@@ -1,3 +1,11 @@
+const myLibrary = [];
+// Add a test book
+const myBook1 = new Book("Fahrenheit 451", "Ray Bradbury", true, 28);
+const myBook2 = new Book("Death on the Nile", "Agatha Christie", true, 108);
+myLibrary.push(myBook1);
+myLibrary.push(myBook2);
+document.addEventListener('DOMContentLoaded', displayBook);
+
 const addBtn = document.querySelector("#add-book-button");
 const bookDialog = document.querySelector("#book-dialog");
 
@@ -7,18 +15,17 @@ const submitBtn = document.querySelector(".submit");
 const backdrop = document.querySelector("#backdrop")
 
 
-// Add this event listener to your existing code
+
 document.addEventListener('keydown', handleEscapeKey);
 const userInputs = bookDialog.querySelectorAll('input');
 
-
+const bookList = document.querySelector(".book-grid");
 
 addBtn.addEventListener ("click", openModalBox);
 submitBtn.addEventListener ("click", addBookToLibrary);
 cancelBtn.addEventListener("click", cancelModalBox);
 
 
-const myLibrary = [];
 
 //create object Book
 function Book(title, author, isRead, numPages) {
@@ -28,6 +35,8 @@ function Book(title, author, isRead, numPages) {
   this.numPages = numPages;
 }
 
+
+
 function openModalBox(){
   bookDialog.showModal();
   toggleBackdrop();
@@ -35,6 +44,7 @@ function openModalBox(){
 
 function cancelModalBox(){
   bookDialog.close();
+  clearInput()
   toggleBackdrop();
 }
 
@@ -44,32 +54,45 @@ function handleEscapeKey(event) {
   }
 }
 
-function displayBook(){
-  const bookList = document.querySelector(".book-grid");
-  const bookCard = document.createElement("div")
- 
-  bookCard.classList.add('book-card');
-  document.querySelector(".book-grid").appendChild(bookCard);
-
-  bookCard.innerHTML = `
-    <h4>${newBook.titleValue}</h4>
-          <p>${newBook.authorValue}</p>
-          <p>${newBook.numPagesValue} Pages</p>
-          <div class="switch-button">
-              <p>Have you read it?</p>
-              <label class="switch">
-                  <input type="checkbox" ${newBook.isReadValue ? 'checked' : ''}>
-                  <span class="slider round" ></span>
-              </label>
-          </div>
-          <button class="delete-button" onclick="deleteBook(this.parentNode)"><i class="bi bi-trash"></i>Delete Book</button>
-  `;
+function displayBook() {
+  bookList.innerHTML = ''; // Clear existing books
+  
+  for (let i = 0; i < myLibrary.length; i++) {
+    const book = myLibrary[i];
+    const bookCard = document.createElement("div");
+    bookCard.classList.add('book-card');
+    bookCard.dataset.index = i; // Add this line
+    bookCard.innerHTML = `
+    <div class="book-cover">
+    <div class="book-title">
+    <h4>${book.title}</h4>
+    </div>
+      <div class="book-info">
+      <h5 id="author-info">✍🏻${book.author}</h5>
+    
+      <p>📌You are at ${book.numPages} Pages</p>
+      
+      <div class="switch-button">
+        <p>✔️Have you read it?</p>
+        <label class="switch">
+          <input type="checkbox" ${book.isRead ? 'checked' : ''}>
+      </div>
+      </div>
+   
+      <button id="delete-button"></button>    
+    </div>
+    `;
+    
+    bookList.appendChild(bookCard);
+  }
 }
 
-function addBookToLibrary() {
-  event.preventDefault();
-  toggleBackdrop();
+function removeBook(){
 
+}
+
+function addBookToLibrary(event) {
+  event.preventDefault();
   const titleValue = userInputs[0].value;
   const authorValue = userInputs[1].value;
   const numPagesValue = parseInt(userInputs[2].value);
@@ -78,27 +101,37 @@ function addBookToLibrary() {
   if (
     titleValue.trim() === "" ||
     authorValue.trim() === "" ||
-    numPagesValue.trim() === "" ||
-    isReadValue.trim() === ""
-    +numPagesValue < 1 
+    isNaN(numPagesValue) ||
+    numPagesValue < 1 
   ){
     alert("Please enter valid values.");
     return;
   }
+  
   const newBook = new Book(titleValue, authorValue, isReadValue, numPagesValue);
-
   
   myLibrary.push(newBook);
-  console.log(myLibrary);
-  
+  clearInput();
+  displayBook();
+  bookDialog.close();
+  toggleBackdrop();
+}
+
+
+
+function clearInput() {
+  userInputs.forEach(input => {
+    if (input.type === 'checkbox') {
+      input.checked = false;
+    } else {
+      input.value = "";
+    }
+  });
 }
 
 
 
 
-function removeBook(){
-
-}
 
 function toggleBackdrop() {
   backdrop.classList.toggle("visible");
