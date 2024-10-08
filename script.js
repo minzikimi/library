@@ -8,34 +8,26 @@ document.addEventListener('DOMContentLoaded', displayBook);
 
 const addBtn = document.querySelector("#add-book-button");
 const bookDialog = document.querySelector("#book-dialog");
-
-
 const cancelBtn = document.querySelector(".close-modal-button");
 const submitBtn = document.querySelector(".submit");
 const backdrop = document.querySelector("#backdrop")
-
+const userInputs = bookDialog.querySelectorAll('input');
+const bookList = document.querySelector(".book-grid");
 
 
 document.addEventListener('keydown', handleEscapeKey);
-const userInputs = bookDialog.querySelectorAll('input');
-
-const bookList = document.querySelector(".book-grid");
-
 addBtn.addEventListener ("click", openModalBox);
 submitBtn.addEventListener ("click", addBookToLibrary);
 cancelBtn.addEventListener("click", cancelModalBox);
 
-
-
 //create object Book
 function Book(title, author, isRead, numPages) {
+  this.id = Math.random().toString();
   this.title = title;
   this.author = author;
   this.isRead = isRead;
   this.numPages = numPages;
 }
-
-
 
 function openModalBox(){
   bookDialog.showModal();
@@ -56,39 +48,43 @@ function handleEscapeKey(event) {
 
 function displayBook() {
   bookList.innerHTML = ''; // Clear existing books
-  
-  for (let i = 0; i < myLibrary.length; i++) {
-    const book = myLibrary[i];
+
+  for (const [index, book] of myLibrary.entries()) {
     const bookCard = document.createElement("div");
     bookCard.classList.add('book-card');
-    bookCard.dataset.index = i; // Add this line
+    bookCard.dataset.index = index;
     bookCard.innerHTML = `
     <div class="book-cover">
-    <div class="book-title">
-    <h4>${book.title}</h4>
-    </div>
+      <div class="book-title">
+        <h4>${book.title}</h4>
+      </div>
       <div class="book-info">
-      <h5 id="author-info">✍🏻${book.author}</h5>
-    
-      <p>📌You are at ${book.numPages} Pages</p>
-      
-      <div class="switch-button">
-        <p>✔️Have you read it?</p>
-        <label class="switch">
-          <input type="checkbox" ${book.isRead ? 'checked' : ''}>
+        <h5 id="author-info">✍🏻${book.author}</h5>
+        <p>📌You are at ${book.numPages} Pages</p>
+        <div class="switch-button">
+          <p>✔️Have you read it?</p>
+          <label class="switch">
+            <input type="checkbox" ${book.isRead ? 'checked' : ''}>
+          </label>
+        </div>
       </div>
-      </div>
-   
       <button id="delete-button"></button>    
     </div>
     `;
     
     bookList.appendChild(bookCard);
+
+    const deleteButton = bookCard.querySelector("#delete-button");
+    deleteButton.addEventListener('click', () => removeBook(book.id));
   }
 }
 
-function removeBook(){
-
+function removeBook(bookId){
+  const bookIndex = myLibrary.findIndex(book => book.id === bookId);
+  if (bookIndex > -1) {
+    myLibrary.splice(bookIndex, 1);
+    displayBook(); 
+  }
 }
 
 function addBookToLibrary(event) {
@@ -117,8 +113,6 @@ function addBookToLibrary(event) {
   toggleBackdrop();
 }
 
-
-
 function clearInput() {
   userInputs.forEach(input => {
     if (input.type === 'checkbox') {
@@ -128,10 +122,6 @@ function clearInput() {
     }
   });
 }
-
-
-
-
 
 function toggleBackdrop() {
   backdrop.classList.toggle("visible");

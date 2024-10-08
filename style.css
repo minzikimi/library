@@ -29,6 +29,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  font-family: clashdisplay;
 }
 
 
@@ -69,12 +70,11 @@ header>h1::first-letter
 }
 
 form, form input, form button,.book-cover{
-  font-family: "Nunito", sans-serif;
   font-size: 1.5rem;
 }
 
 form {
-  font-weight:bold;
+  font-weight: 700;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 1fr);
@@ -125,8 +125,6 @@ form button{
 .close-modal-button:hover{
   opacity: 80%;
 }
-
-
 
 .book-grid{
   display: grid;
@@ -196,8 +194,6 @@ form button{
   height: 50px;
 }
 
-
-
 .book-cover {
   position: relative;
   border-left : solid 10px #4c2c2c;
@@ -234,7 +230,6 @@ form button{
   opacity:90%;
 }
 
-
 #add-book-button {
   cursor: pointer;
   background-color: white;
@@ -256,6 +251,10 @@ form button{
 #add-book-button:hover {
   background-color: #cd9ea8;
   color: white;
+}
+
+#delete-button:hover{
+  filter: invert(100%);
 }
 
 #backdrop {
