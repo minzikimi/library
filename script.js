@@ -54,28 +54,31 @@ function displayBook() {
     bookCard.classList.add('book-card');
     bookCard.dataset.index = index;
     bookCard.innerHTML = `
-    <div class="book-cover">
-      <div class="book-title">
-        <h4>${book.title}</h4>
-      </div>
-      <div class="book-info">
-        <h5 id="author-info">✍🏻${book.author}</h5>
-        <p>📌You are at ${book.numPages} Pages</p>
-        <div class="switch-button">
-          <p>✔️Have you read it?</p>
-          <label class="switch">
-            <input type="checkbox" ${book.isRead ? 'checked' : ''}>
-          </label>
+      <div class="book-cover">
+        <div class="book-title">
+          <h4>${book.title}</h4>
         </div>
+        <div class="book-info">
+          <h5 id="author-info">✍🏻${book.author}</h5>
+          <p>📌You are at ${book.numPages} Pages</p>
+          <div class="switch-button">
+            <p>✔️Have you read it?</p>
+            <label class="switch">
+              <input type="checkbox" ${book.isRead ? 'checked' : ''}>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        <button id="delete-button"></button>    
       </div>
-      <button id="delete-button"></button>    
-    </div>
     `;
     
     bookList.appendChild(bookCard);
 
     const deleteButton = bookCard.querySelector("#delete-button");
     deleteButton.addEventListener('click', () => removeBook(book.id));
+
+    
   }
 }
 
@@ -98,7 +101,7 @@ function addBookToLibrary(event) {
     titleValue.trim() === "" ||
     authorValue.trim() === "" ||
     isNaN(numPagesValue) ||
-    numPagesValue < 1 
+    numPagesValue < 0 
   ){
     alert("Please enter valid values.");
     return;
