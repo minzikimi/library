@@ -4,7 +4,7 @@ const myBook1 = new Book("Fahrenheit 451", "Ray Bradbury", true, 28);
 const myBook2 = new Book("Death on the Nile", "Agatha Christie", true, 108);
 myLibrary.push(myBook1);
 myLibrary.push(myBook2);
-document.addEventListener('DOMContentLoaded', displayBook);
+document.addEventListener("DOMContentLoaded", displayBook);
 
 const addBtn = document.querySelector("#add-book-button");
 const bookDialog = document.querySelector("#book-dialog");
