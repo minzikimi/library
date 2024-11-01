@@ -1,5 +1,5 @@
 const myLibrary = [];
-// Add a test book
+// Add test books
 const myBook1 = new Book("Fahrenheit 451", "Ray Bradbury", true, 28);
 const myBook2 = new Book("Death on the Nile", "Agatha Christie", true, 108);
 myLibrary.push(myBook1);
@@ -20,9 +20,7 @@ addBtn.addEventListener ("click", openModalBox);
 submitBtn.addEventListener ("click", addBookToLibrary);
 cancelBtn.addEventListener("click", cancelModalBox);
 
-//create object Book
 function Book(title, author, isRead, numPages) {
-  this.id = Math.random().toString();
   this.title = title;
   this.author = author;
   this.isRead = isRead;
@@ -46,48 +44,8 @@ function handleEscapeKey(event) {
   }
 }
 
-function displayBook() {
-  bookList.innerHTML = ''; // Clear existing books
-
-  for (const [index, book] of myLibrary.entries()) {
-    const bookCard = document.createElement("div");
-    bookCard.classList.add('book-card');
-    bookCard.dataset.index = index;
-    bookCard.innerHTML = `
-      <div class="book-cover">
-        <div class="book-title">
-          <h4>${book.title}</h4>
-        </div>
-        <div class="book-info">
-          <h5 id="author-info">✍🏻${book.author}</h5>
-          <p>📌You are at ${book.numPages} Pages</p>
-          <div class="switch-button">
-            <p>✔️Have you read it?</p>
-            <label class="switch">
-              <input type="checkbox" ${book.isRead ? 'checked' : ''}>
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-        <button id="delete-button"></button>    
-      </div>
-    `;
-    
-    bookList.appendChild(bookCard);
-
-    const deleteButton = bookCard.querySelector("#delete-button");
-    deleteButton.addEventListener('click', () => removeBook(book.id));
-
-    
-  }
-}
-
-function removeBook(bookId){
-  const bookIndex = myLibrary.findIndex(book => book.id === bookId);
-  if (bookIndex > -1) {
-    myLibrary.splice(bookIndex, 1);
-    displayBook(); 
-  }
+function toggleBackdrop() {
+  backdrop.classList.toggle("visible");
 }
 
 function addBookToLibrary(event) {
@@ -126,7 +84,45 @@ function clearInput() {
   });
 }
 
-function toggleBackdrop() {
-  backdrop.classList.toggle("visible");
+function displayBook() {
+  bookList.innerHTML = ''; // Clear existing books
+
+  for (const [index, book] of myLibrary.entries()) {
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("book-card");
+    bookCard.dataset.index = index;
+    bookCard.innerHTML = `
+      <div class="book-cover">
+        <div class="book-title">
+          <h4>${book.title}</h4>
+        </div>
+        <div class="book-info">
+          <h5 id="author-info">✍🏻${book.author}</h5>
+          <p>📌You are at ${book.numPages} Pages</p>
+          <div class="switch-button">
+            <p>✔️Have you read it?</p>
+            <label class="switch">
+              <input type="checkbox" ${book.isRead ? 'checked' : ''}>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        <button id="delete-button"></button>    
+      </div>
+    `;
+    
+    bookList.appendChild(bookCard);
+    const deleteButton = bookCard.querySelector("#delete-button");
+
+    deleteButton.addEventListener("click", () => removeBook(book.index));
+  }
 }
+
+function removeBook(bookIndex) {
+  myLibrary.splice(bookIndex, 1); 
+  displayBook(); 
+}
+
+
+
 
